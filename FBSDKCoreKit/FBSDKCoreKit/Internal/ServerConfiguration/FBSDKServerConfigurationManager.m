@@ -130,7 +130,7 @@ typedef NS_OPTIONS(NSUInteger, FBSDKServerConfigurationManagerAppEventsFeatures)
       NSData *data = [defaults objectForKey:defaultsKey];
       if ([data isKindOfClass:[NSData class]]) {
         // decode the configuration
-        FBSDKServerConfiguration *serverConfiguration = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+        FBSDKServerConfiguration *serverConfiguration = [NSKeyedUnarchiver unarchivedObjectOfClass:[FBSDKServerConfiguration class] fromData:data error:NULL];
         if ([serverConfiguration isKindOfClass:[FBSDKServerConfiguration class]]) {
           // ensure that the configuration points to the current appID
           if ([serverConfiguration.appID isEqualToString:appID]) {
@@ -397,7 +397,7 @@ typedef NS_OPTIONS(NSUInteger, FBSDKServerConfigurationManagerAppEventsFeatures)
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *defaultsKey = [NSString stringWithFormat:FBSDK_SERVER_CONFIGURATION_USER_DEFAULTS_KEY, appID];
     if (serverConfiguration) {
-      NSData *data = [NSKeyedArchiver archivedDataWithRootObject:serverConfiguration];
+      NSData *data = [NSKeyedArchiver archivedDataWithRootObject:serverConfiguration requiringSecureCoding:NO error:NULL];
       [defaults setObject:data forKey:defaultsKey];
     }
 
